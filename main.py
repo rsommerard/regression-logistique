@@ -3,6 +3,7 @@
 import numpy
 from matplotlib import pyplot
 import random
+import math
 
 def load_data():
   global Nt, Np, N, t, p, matrix
@@ -30,7 +31,7 @@ def pas_batch(val):
   return ((A/(C + (B * val))))
   
 def j_theta(theta):
-  tmp = (matrix[:,1] - numpy.dot(matrix[:,0].T, theta))
+  tmp = (matrix[1,:] - numpy.dot(matrix[0,:].T, theta))
   # numpy.dot(tmp.T, tmp) = le carré
   return ((1.0/N) * numpy.dot(tmp.T, tmp))
   
@@ -43,7 +44,7 @@ def batch_gradient_descent():
   i = 1
   while (previous != current):
     previous = current
-    theta = theta + (pas_batch(i) * (1.0/N) * numpy.dot(matrix[:,0], (matrix[:,1] - (1.0/(1 + (e**(numpy.dot(theta.T, matrix[:,0]))))))))
+    theta = theta + (pas_batch(i) * (1.0/N) * numpy.dot(matrix[0,:], (matrix[1,:] - (1.0/(1 + (math.exp(numpy.dot(theta.T, matrix[0,:]))))))))
     i+=1
     current = j_theta(theta)
 
